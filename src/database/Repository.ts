@@ -12,10 +12,8 @@ class Repository <T extends mongoose.Document, U> {
     }
 
     create(object: U): Promise <any> {
-        console.log(object);
         return new Promise<any>((resolve, reject) => {
             this.Model.create(object, (err, user) => {
-                console.log("err: ", err);
                 if (err)
                     reject(err);
                 resolve(user);

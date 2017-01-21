@@ -6,7 +6,6 @@ import {ObjectID} from 'mongodb';
 
 
 interface ISession extends mongoose.Document {
-    _id: ObjectID;
     day: String;
     start_time: String;
     end_time: String;

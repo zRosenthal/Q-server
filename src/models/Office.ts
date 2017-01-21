@@ -23,7 +23,7 @@ class Office {
     public location: String;
     public name: String;
     public description: String;
-    public sessions: Session[];
+    public sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}],
     public queue: [{type: mongoose.Schema.Types.ObjectID, ref: 'User'}];
     public createdAt: Date;
     public updatedAt: Date;
