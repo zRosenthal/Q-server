@@ -113,7 +113,7 @@ export class SessionRouter {
         );
     }
 
-    delete(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    deleteSession(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let sessionRepo = new SessionRepository();
 
         sessionRepo.findById(req.body.sessionId).then(
@@ -134,7 +134,7 @@ export class SessionRouter {
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.delete('/', this.delete);
+        this.router.delete('/', this.deleteSession);
         this.router.post('/', this.new);
         this.router.patch('/', this.edit);
         this.router.patch('/active', this.setActive);
