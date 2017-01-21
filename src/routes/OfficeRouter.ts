@@ -29,20 +29,6 @@ export class OfficeRouter {
         });
     };
 
-    deleteAll(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
-        let officeRepo = new OfficeRepository();
-        officeRepo.removeAll().then((result) => {
-            res.json(result);
-        }, err => {
-            res.status(500).json(err);
-        });
-    };
-
-    test(req: Request & ParsedAsJson, res: Response, next: NextFunction){
-        res.json({
-            message: 'testing'
-        });
-    };
 
     new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let userRepo = new UserRepository();
