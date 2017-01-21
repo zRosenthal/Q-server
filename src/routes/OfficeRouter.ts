@@ -68,10 +68,17 @@ export class OfficeRouter {
         let userId = req.body.userId;
         let officeRepo = new OfficeRepository();
 
+        /*var populateQuery = [{path: 'queue', select: 'name email _id picture_url', model: 'User'}]
+
+        officeRepo.findById(req.body.officeId).populate(populateQuery);*/
+
         officeRepo.findById(req.body.officeId).then(
             (data) => {
                 data.queue.push(userId);
-                res.json(data.save());
+                console.log("userId: " + userId);
+                data.save();
+
+                res.json(userId);
             },
             err => err
         );
@@ -121,6 +128,33 @@ export class OfficeRouter {
 
     }
 
+    leaveQueue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let officeRepo = new OfficeRepository();
+
+        officeRepo.findById(req.body.officeId).then(
+            (data) => {
+                console.log('data:' + data);
+                let i = data.queue.indexOf(req.body.userId);
+                console.log('i:' + i);
+                console.log('userId:' + req.body.userId);
+                data.queue.splice(i, 1);
+                data.save();
+
+                /*for(let i = 0; i < data.queue.length; i++){
+                    console.log('Here2' + data.queue.length);
+                    if(data.queue[i] == req.params.id){
+                        console.log('Here3');
+                        data.queue.splice(i, 1);
+                    }
+                }*/
+                res.json('deleted');
+            },
+            err => {
+                res.status(500).json(err);
+            },
+        );
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -130,8 +164,9 @@ export class OfficeRouter {
         this.router.delete('/:id', this.deleteOffice);
         this.router.post('/', this.new);
         this.router.patch('/queue', this.queue);
-        this.router.delete('/queue', this.unqueue);
+        this.router.delete('/queue/pop', this.unqueue);
         this.router.patch('/', this.edit);
+        this.router.delete('/queue/leave/', this.leaveQueue)
     }
 
 }
