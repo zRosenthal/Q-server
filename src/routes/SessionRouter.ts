@@ -82,6 +82,37 @@ export class SessionRouter {
         });
     };
 
+    edit(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let sessionRepo = new SessionRepository();
+
+        sessionRepo.findById(req.body.sessionId).then(
+            (data) => {
+                data.day = req.body.day;
+                data.start_time = req.body.start_time;
+                data.end_time = req.body.end_time;
+                res.json(data.save());
+            },
+            err => err
+        );
+    }
+
+    setActive(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let sessionRepo = new SessionRepository();
+
+        sessionRepo.findById(req.body.sessionId).then(
+            (data) => {
+                if(data.active == true){
+                    data.active = false;
+                }
+                else{
+                    data.active = true;
+                }
+                res.json(data.save());
+            },
+            err => err
+        );
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -90,6 +121,8 @@ export class SessionRouter {
         this.router.get('/', this.getAll);
         this.router.delete('/', this.deleteAll);
         this.router.post('/', this.new);
+        this.router.patch('/', this.edit);
+        this.router.patch('/active', this.setActive)
     }
 
 }

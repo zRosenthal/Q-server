@@ -89,6 +89,21 @@ export class OfficeRouter {
         );
     }
 
+    edit(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let officeRepo = new OfficeRepository();
+
+        officeRepo.findById(req.body.officeId).then(
+            (data) => {
+                data.location = req.body.location;
+                data.name = req.body.name;
+                data.description = req.body.description;
+                res.json(data.save());
+            },
+            err => err
+        );
+
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -99,6 +114,7 @@ export class OfficeRouter {
         this.router.post('/', this.new);
         this.router.patch('/queue', this.queue);
         this.router.delete('/queue', this.unqueue);
+        this.router.patch('/', this.edit);
     }
 
 }

@@ -20,7 +20,7 @@ class User {
     public name: String;
     public email: String;
     public picture_url: String;
-    public offices: [{type: mongoose.Schema.Types.ObjectID, ref: 'Office'}];
+    public offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}];
     public createdAt: Date;
     public updatedAt: Date;
 

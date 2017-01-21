@@ -47,16 +47,26 @@ export class UserRouter {
         let userRepo = new UserRepository();
 
         let user = new User(req.body);
-        console.log(req.body);
-        console.log(user);
 
         userRepo.create(user).then((result) => {
-            console.log("result: " + result);
             res.json(result);
         }, err => {
             res.status(500).json(err);
         });
     };
+
+    edit(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let userRepo = new UserRepository();
+
+        userRepo.findById(req.body.userId).then(
+            (data) => {
+                data.name = req.body.name;
+                data.email = req.body.email;
+                res.json(data.save());
+            },
+            err => err
+        );
+    }
 
     /**
      * Take each handler, and attach to one of the Express.Router's
@@ -66,6 +76,7 @@ export class UserRouter {
         this.router.get('/', this.getAll);
         this.router.delete('/', this.deleteAll);
         this.router.post('/', this.new);
+        this.router.patch('/', this.edit);
     }
 
 }
