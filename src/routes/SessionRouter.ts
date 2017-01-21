@@ -52,22 +52,6 @@ export class SessionRouter {
 
         let session = new Session(req.body);
 
-
-        /*sessionRepo.create(session).then(
-            (res) => officeRepo.findById(req.body.office),
-            (err) => err
-        ).then(
-            (data) => {
-                data.sessions.push(result._id);
-                return data.save();
-            },
-            (err) => err
-        ).then(
-            (success) => res.json(session),
-            (err)  => res.status(500).json(err)
-
-        );*/
-
         sessionRepo.create(session).then((result) => {
             officeRepo.findById(req.body.officeId).then(
                 (data) => {
@@ -90,7 +74,6 @@ export class SessionRouter {
             (data) => {
                 data.day = req.body.day;
                 data.start_time = req.body.start_time;
-                data.end_time = req.body.end_time;
                 res.json(data.save());
             },
             err => err
