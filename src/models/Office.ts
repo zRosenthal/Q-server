@@ -12,7 +12,7 @@ let officeSchema = new Schema({
     name: String,
     description: String,
     sessions: [sessionSchema],
-    queue: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    queue: Array,
 }, {
     timestamps: true
 });
@@ -39,4 +39,4 @@ class Office {
     }
 }
 // make this available to our users in our Node applications
-export {OfficeModel, Office};
+export {OfficeModel, Office, officeSchema};

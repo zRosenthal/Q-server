@@ -5,6 +5,7 @@ import { ObjectID } from 'mongodb';
  */
 
 interface IUser extends mongoose.Document {
+    id: String;
     name: String;
     email: String;
     picture_url: String;

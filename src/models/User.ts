@@ -1,15 +1,16 @@
 import * as mongoose from 'mongoose';
 import {IUser} from '../modelInterfaces/IUser';
 import { ObjectID }  from 'mongodb';
-import {Office} from "./Office";
+import {Office, officeSchema} from "./Office";
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
     provider: String,
+    id: String,
     name: String,
     email: String,
     picture_url: String,
-    offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}],
+    offices: [officeSchema],
 }, {
     timestamps: true
 });
@@ -17,6 +18,7 @@ let userSchema = new Schema({
 let UserModel = mongoose.model < IUser >('User', userSchema);
 
 class User {
+    public id:String;
     public name: String;
     public email: String;
     public picture_url: String;
@@ -25,6 +27,7 @@ class User {
     public updatedAt: Date;
 
     constructor(user: Object) {
+        this.id = user['id'];
         this.name = user['name'];
         this.email = user['email'];
         this.picture_url = user['picture_url'];
@@ -34,4 +37,4 @@ class User {
     }
 }
 // make this available to our users in our Node applications
-export {UserModel, User};
+export {UserModel, User, userSchema};
