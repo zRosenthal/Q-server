@@ -113,13 +113,28 @@ export class SessionRouter {
         );
     }
 
+    delete(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let sessionRepo = new SessionRepository();
+
+        sessionRepo.findById(req.body.sessionId).then(
+            (data) => {
+                sessionRepo.delete(data).then((result) => {
+                    res.json("deleted");
+                }, err => {
+                    res.status(500).json(err);
+                });
+            },
+            err => err
+        );
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.delete('/', this.deleteAll);
+        this.router.delete('/', this.delete);
         this.router.post('/', this.new);
         this.router.patch('/', this.edit);
         this.router.patch('/active', this.setActive);

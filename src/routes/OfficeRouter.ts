@@ -110,7 +110,7 @@ export class OfficeRouter {
         officeRepo.findById(req.body.officeId).then(
             (data) => {
                 officeRepo.delete(data).then((result) => {
-                    res.json(result);
+                    res.json("deleted");
                 }, err => {
                     res.status(500).json(err);
                 });
