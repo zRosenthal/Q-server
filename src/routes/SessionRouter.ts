@@ -69,7 +69,7 @@ export class SessionRouter {
         );*/
 
         sessionRepo.create(session).then((result) => {
-            officeRepo.findById(req.body.office).then(
+            officeRepo.findById(req.body.officeId).then(
                 (data) => {
                     data.sessions.push(result._id);
                     data.save();
@@ -122,7 +122,7 @@ export class SessionRouter {
         this.router.delete('/', this.deleteAll);
         this.router.post('/', this.new);
         this.router.patch('/', this.edit);
-        this.router.patch('/active', this.setActive)
+        this.router.patch('/active', this.setActive);
     }
 
 }
