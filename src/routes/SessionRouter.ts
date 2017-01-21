@@ -52,15 +52,30 @@ export class SessionRouter {
 
         let session = new Session(req.body);
 
-        let office = officeRepo.findById(req.body.office).then((resolve, request) => {
-            resolve(request);
-        }, err => {
-            res.status(500).json(err);
-        });
 
-        console.log("office: " + office);
+        /*sessionRepo.create(session).then(
+            (res) => officeRepo.findById(req.body.office),
+            (err) => err
+        ).then(
+            (data) => {
+                data.sessions.push(result._id);
+                return data.save();
+            },
+            (err) => err
+        ).then(
+            (success) => res.json(session),
+            (err)  => res.status(500).json(err)
+
+        );*/
 
         sessionRepo.create(session).then((result) => {
+            officeRepo.findById(req.body.office).then(
+                (data) => {
+                    data.sessions.push(result._id);
+                    data.save();
+                },
+                err => err
+            );
             res.json(result);
         }, err => {
             res.status(500).json(err);

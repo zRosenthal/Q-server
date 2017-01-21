@@ -11,7 +11,7 @@ let officeSchema = new Schema({
     location: String,
     name: String,
     description: String,
-    sessions: [{type: mongoose.Schema.Types.ObjectId ref: 'Session'}],
+    sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}],
     queue: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 }, {
     timestamps: true
