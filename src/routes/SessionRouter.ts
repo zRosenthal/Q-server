@@ -31,22 +31,8 @@ export class SessionRouter {
         });
     };
 
-    deleteAll(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
-        let sessionRepo = new SessionRepository();
-        sessionRepo.removeAll().then((result) => {
-            res.json(result);
-        }, err => {
-            res.status(500).json(err);
-        });
-    };
 
-    test(req: Request & ParsedAsJson, res: Response, next: NextFunction){
-        res.json({
-            message: 'testing'
-        });
-    };
-
-    new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    newSession(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let sessionRepo = new SessionRepository();
         let officeRepo = new OfficeRepository();
 
@@ -119,7 +105,7 @@ export class SessionRouter {
     init() {
         this.router.get('/', this.getAll);
         this.router.delete('/', this.deleteSession);
-        this.router.post('/', this.new);
+        this.router.post('/', this.newSession);
         this.router.patch('/', this.edit);
         this.router.patch('/active', this.setActive);
     }
