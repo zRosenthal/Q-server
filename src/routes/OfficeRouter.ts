@@ -1,14 +1,14 @@
 /**
- * Created by evan on 11/20/16.
+ * Created by jack on 1/21/17.
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
 import {ParsedAsText, ParsedAsJson} from 'body-parser';
-import {IUser} from '../modelInterfaces/IUser';
-import UserRepository = require('../database/UserRepository');
-import {User} from "../models/User";
+import {IOffice} from '../modelInterfaces/IOffice';
+import OfficeRepository = require('../database/OfficeRepository');
+import {Office} from "../models/Office";
 
-export class UserRouter {
+export class OfficeRouter {
     router: Router;
 
     /**
@@ -20,8 +20,8 @@ export class UserRouter {
     }
 
     getAll(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
-        let userRepo = new UserRepository();
-        userRepo.findAll({}, null).then((result) => {
+        let officeRepo = new OfficeRepository();
+        officeRepo.findAll({}, null).then((result) => {
             res.json(result);
         }, err => {
             res.status(500).json(err);
@@ -29,8 +29,8 @@ export class UserRouter {
     };
 
     deleteAll(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
-        let userRepo = new UserRepository();
-        userRepo.removeAll().then((result) => {
+        let officeRepo = new OfficeRepository();
+        officeRepo.removeAll().then((result) => {
             res.json(result);
         }, err => {
             res.status(500).json(err);
@@ -44,13 +44,13 @@ export class UserRouter {
     };
 
     new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
-        let userRepo = new UserRepository();
+        let officeRepo = new OfficeRepository();
 
-        let user = new User(req.body);
+        let office = new Office(req.body);
         console.log(req.body);
-        console.log(user);
+        console.log(office);
 
-        userRepo.create(user).then((result) => {
+        officeRepo.create(office).then((result) => {
             console.log("result: " + result);
             res.json(result);
         }, err => {
@@ -71,7 +71,7 @@ export class UserRouter {
 }
 
 // Create the TestRouter, and export its configured Express.Router
-const gatheringRoutes = new UserRouter();
+const gatheringRoutes = new OfficeRouter();
 gatheringRoutes.init();
 
 export default gatheringRoutes.router;
