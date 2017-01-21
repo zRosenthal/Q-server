@@ -46,7 +46,7 @@ export class LoginRouter {
                 fb.registerUser(token).then(response => {
                         console.log(JSON.stringify(response));
                         let user = new User({
-                            displayName: response.name,
+                            name: response.first_name + ' ' + response.last_name,
                             provider: 'fb',
                             id: response.id,
                             email: response.email,
