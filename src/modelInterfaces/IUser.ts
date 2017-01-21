@@ -7,8 +7,8 @@ import { ObjectID } from 'mongodb';
 interface IUser extends mongoose.Document {
     name: String;
     email: String;
-    picture_url: String,
-    offices: [{type: mongoose.Schema.Types.ObjectID, ref: 'Office'}],
+    picture_url: String;
+    offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}];
     createdAt: Date;
     updatedAt: Date;
 }

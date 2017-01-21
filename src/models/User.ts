@@ -9,7 +9,7 @@ let userSchema = new Schema({
     name: String,
     email: String,
     picture_url: String,
-    office: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}],
+    offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}],
 }, {
     timestamps: true
 });

@@ -7,6 +7,7 @@ import {ParsedAsText, ParsedAsJson} from 'body-parser';
 import {IOffice} from '../modelInterfaces/IOffice';
 import OfficeRepository = require('../database/OfficeRepository');
 import {Office} from "../models/Office";
+import UserRepository = require("../database/UserRepository");
 
 export class OfficeRouter {
     router: Router;
@@ -44,14 +45,19 @@ export class OfficeRouter {
     };
 
     new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
         let office = new Office(req.body);
-        console.log(req.body);
-        console.log(office);
 
         officeRepo.create(office).then((result) => {
-            console.log("result: " + result);
+            userRepo.findById(req.body.user).then(
+                (data) => {
+                    data.offices.push(result._id);
+                    data.save();
+                },
+                err => err
+            );
             res.json(result);
         }, err => {
             res.status(500).json(err);
