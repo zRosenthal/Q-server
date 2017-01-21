@@ -107,11 +107,12 @@ export class OfficeRouter {
     deleteOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let officeRepo = new OfficeRepository();
 
-        officeRepo.findById(req.body.officeId).then(
+        officeRepo.findById(req.params.id).then(
             (data) => {
                 officeRepo.delete(data).then((result) => {
                     res.json("deleted");
                 }, err => {
+                    console.log(err, req.body.officeId);
                     res.status(500).json(err);
                 });
             },
@@ -126,7 +127,7 @@ export class OfficeRouter {
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.delete('/', this.deleteOffice);
+        this.router.delete('/:id', this.deleteOffice);
         this.router.post('/', this.new);
         this.router.patch('/queue', this.queue);
         this.router.delete('/queue', this.unqueue);
