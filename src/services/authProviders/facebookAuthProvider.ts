@@ -29,7 +29,7 @@ class FacebookAuthProvider {
             uri: `${FacebookAuthProvider.URI}me`,
             qs: {
                 access_token: token,
-                fields: 'name,picture,email'
+                fields: 'first_name,last_name,picture,email'
             },
             headers: {
                 'User-Agent': 'Request-Promise'
