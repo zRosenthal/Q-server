@@ -59,7 +59,7 @@ class App {
         // placeholder route handler
         this.express.get('/', (req, res, next) => {
 
-            console.log('this route');
+            console.log('herherh');
             res.json({
                 message: 'Hello World!'
             });

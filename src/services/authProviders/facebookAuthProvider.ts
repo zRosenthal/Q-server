@@ -9,10 +9,10 @@ interface IAccessToken {
 
 class FacebookAuthProvider {
 
-    static CLIENT_ID = '';
-    static REDIRECT_URI = '';
-    static CLIENT_SECRET = '';
-    static URI = '';
+    static CLIENT_ID = '1123588731087524';
+    static REDIRECT_URI = 'http://localhost/callback';;
+    static CLIENT_SECRET = '6560e59bce9e899d07bd891d180c6806';
+    static URI = 'https://graph.facebook.com/v2.8/';
 
     public registerUser(code: string): any {
         return new Promise<any>((resolve, reject) => {

@@ -27,12 +27,12 @@ export class LoginRouter {
     getAll(req: Request & ParsedAsText, res: Response, next: NextFunction) {
 
         let userRepository = new UserRepository();
-        // res.json(req.body);
-        let body = req.body;
-        let user = new User(body);
-        let action = body['action'];
-        let actionType = body['actionType'];
-        let token = body['token'];
+
+        let action = 'register'; // body['action'];
+        let actionType = 'fb'; // body['actionType'];
+        let token = req.params.token;
+
+        console.log('token: ' + token);
 
         if (action === 'login') {
 
@@ -49,10 +49,23 @@ export class LoginRouter {
                             displayName: response.name,
                             provider: 'fb',
                             id: response.id,
+                            email: response.email,
                             // optional if you want user photo, must update model as well
-                            // photo: response['picture'].data.url
+                            picture_url: response['picture'].data.url
                         });
-                        userRepository.findOrCreate({id: response.id}).then((entity) => {
+
+                        userRepository.create(user).then((entity) => {
+
+                            console.log(`response: ${JSON.stringify(entity)}`);
+                            let token = AuthService.createAuthToken(entity['_doc']);
+                            console.log('token: ' + token);
+                            res.json(token);
+                        }, err => {
+
+                            console.log(`err: ${JSON.stringify(err)}`);
+                        });
+
+                        /*userRepository.findOrCreate({id: response.id}).then((entity) => {
 
                             console.log(`response: ${JSON.stringify(entity)}`);
                             let token = AuthService.createAuthToken(entity['_doc']);
@@ -60,7 +73,7 @@ export class LoginRouter {
                         }, err => {
 
                             console.log(`err: ${JSON.stringify(err)}`);
-                        });
+                        });*/
                         // console.log(JSON.stringify(res, null, 2));
                     },
                     error => error);
@@ -84,7 +97,7 @@ export class LoginRouter {
      * endpoints.
      */
     init() {
-        this.router.post('/', this.getAll);
+        this.router.get('/:token', this.getAll);
     }
 
 }
