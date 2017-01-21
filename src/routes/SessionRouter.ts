@@ -71,7 +71,8 @@ export class SessionRouter {
         sessionRepo.create(session).then((result) => {
             officeRepo.findById(req.body.officeId).then(
                 (data) => {
-                    data.sessions.push(result._id);
+                    console.log("result: " + result);
+                    data.sessions.push(result);
                     data.save();
                 },
                 err => err

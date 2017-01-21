@@ -4,14 +4,14 @@
 import * as mongoose from 'mongoose';
 import {IOffice} from '../modelInterfaces/IOffice';
 import {ObjectID} from 'mongodb';
-import {Session} from "./Session";
+import {Session, sessionSchema} from "./Session";
 let Schema = mongoose.Schema;
 
 let officeSchema = new Schema({
     location: String,
     name: String,
     description: String,
-    sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}],
+    sessions: [sessionSchema],
     queue: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 }, {
     timestamps: true

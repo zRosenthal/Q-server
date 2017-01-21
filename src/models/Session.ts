@@ -35,4 +35,4 @@ class Session {
     }
 }
 // make this available to our users in our Node applications
-export {SessionModel, Session};
+export {SessionModel, Session, sessionSchema};
