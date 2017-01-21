@@ -6,6 +6,8 @@ import LoginRouter from './routes/LoginRouter';
 import * as mongoose from 'mongoose';
 import AuthService = require('./services/AuthService');
 import UserRouter from './routes/UserRouter';
+import OfficeRouter from "./routes/OfficeRouter";
+import SessionRouter from "./routes/SessionRouter";
 
 
 // Creates and configures an ExpressJS web server.
@@ -64,9 +66,11 @@ class App {
         });
 
         this.express.use('/api/v1/login', LoginRouter);
-        this.express.use(AuthService.isAuthenticated);
+        //this.express.use(AuthService.isAuthenticated);
         // Auth protected routes start here
         this.express.use('/api/v1/users', UserRouter);
+        this.express.use('/api/v1/offices', OfficeRouter);
+        this.express.use('/api/v1/sessions', SessionRouter);
     }
 
 }

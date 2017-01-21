@@ -6,6 +6,7 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {ParsedAsText, ParsedAsJson} from 'body-parser';
 import {IUser} from '../modelInterfaces/IUser';
 import UserRepository = require('../database/UserRepository');
+import {User} from "../models/User";
 
 export class UserRouter {
     router: Router;
@@ -36,6 +37,27 @@ export class UserRouter {
         });
     };
 
+    test(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        res.json({
+            message: 'testing'
+        });
+    };
+
+    new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let userRepo = new UserRepository();
+
+        let user = new User(req.body);
+        console.log(req.body);
+        console.log(user);
+
+        userRepo.create(user).then((result) => {
+            console.log("result: " + result);
+            res.json(result);
+        }, err => {
+            res.status(500).json(err);
+        });
+    };
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -43,6 +65,7 @@ export class UserRouter {
     init() {
         this.router.get('/', this.getAll);
         this.router.delete('/', this.deleteAll);
+        this.router.post('/', this.new);
     }
 
 }

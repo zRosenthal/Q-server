@@ -1,12 +1,15 @@
 import * as mongoose from 'mongoose';
 import {IUser} from '../modelInterfaces/IUser';
-import {ObjectID} from 'mongodb';
+import { ObjectID }  from 'mongodb';
+import {Office} from "./Office";
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
     provider: String,
-    id: String,
+    name: String,
     email: String,
+    picture_url: String,
+    offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}],
 }, {
     timestamps: true
 });
@@ -14,16 +17,18 @@ let userSchema = new Schema({
 let UserModel = mongoose.model < IUser >('User', userSchema);
 
 class User {
-    public _id: ObjectID;
-    public id: String;
+    public name: String;
     public email: String;
+    public picture_url: String;
+    public offices: [{type: mongoose.Schema.Types.ObjectID, ref: 'Office'}];
     public createdAt: Date;
     public updatedAt: Date;
 
     constructor(user: Object) {
-        this._id = user['_id'];
-        this.id = user['id'];
+        this.name = user['name'];
         this.email = user['email'];
+        this.picture_url = user['picture_url'];
+        this.offices = user['offices'];
         this.createdAt = user['createdAt'];
         this.updatedAt = user['updatedAt'];
     }
