@@ -104,13 +104,29 @@ export class OfficeRouter {
 
     }
 
+    delete(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let officeRepo = new OfficeRepository();
+
+        officeRepo.findById(req.body.officeId).then(
+            (data) => {
+                officeRepo.delete(data).then((result) => {
+                    res.json(result);
+                }, err => {
+                    res.status(500).json(err);
+                });
+            },
+            err => err
+        );
+
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.delete('/', this.deleteAll);
+        this.router.delete('/', this.delete);
         this.router.post('/', this.new);
         this.router.patch('/queue', this.queue);
         this.router.delete('/queue', this.unqueue);
