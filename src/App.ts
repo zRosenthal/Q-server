@@ -8,7 +8,6 @@ import AuthService = require('./services/AuthService');
 import UserRouter from './routes/UserRouter';
 import OfficeRouter from "./routes/OfficeRouter";
 import SessionRouter from "./routes/SessionRouter";
-import * as WebSocket from 'ws';
 
 
 // Creates and configures an ExpressJS web server.
@@ -20,13 +19,13 @@ class App {
     // Run configuration methods on the Express instance.
     constructor() {
         this.express = express();
-        this.socket();
+        //this.socket();
         this.database();
         this.middleware();
         this.routes();
     }
 
-    private socket(){
+ /*   private socket(){
         const wss = new WebSocket.Server({ port: 8080 });
 
         wss.on('connection', function connection(ws) {
@@ -37,7 +36,7 @@ class App {
 
             ws.send('something');
         });
-    };
+    };*/
 
 
     private database(): void {
