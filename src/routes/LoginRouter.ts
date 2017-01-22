@@ -28,9 +28,15 @@ export class LoginRouter {
 
         let userRepository = new UserRepository();
 
+        // res.json(req.body);
+        let body = req.body;
+
+        console.log('body: ', body);
+        console.log('tes: ' + req.body.token);
+
         let action = 'register'; // body['action'];
         let actionType = 'fb'; // body['actionType'];
-        let token = req.params.token;
+        let token = body['token']; //req.params.token;
 
         console.log('token: ' + token);
 
@@ -98,7 +104,7 @@ export class LoginRouter {
      * endpoints.
      */
     init() {
-        this.router.get('/:token', this.getAll);
+        this.router.post('/', this.getAll);
     }
 
 }
