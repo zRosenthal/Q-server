@@ -34,12 +34,17 @@ export class OfficeRouter {
         let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
-        let office = new Office(req.body);
+        let office = new Office({
+            name: req.body.name,
+            location: req.body.location,
+            description: req.body.description,
+            user_id: {_id: req.body.userId, name: req.body.userName}
+        });
 
         officeRepo.create(office).then((result) => {
-            userRepo.findById(req.body.user).then(
+            userRepo.findById(req.body.userId).then(
                 (data) => {
-                    data.offices.push(result._id);
+                    data.offices.push(result);
                     data.save();
                 },
                 err => err

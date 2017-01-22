@@ -15,6 +15,10 @@ interface IOffice extends mongoose.Document {
         id: String,
         name: String,
     }],
+    user_id: [{
+        id: String,
+        name: String,
+    }],
     active: Boolean;
     createdAt: Date;
     updatedAt: Date;

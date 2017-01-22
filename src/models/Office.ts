@@ -16,6 +16,10 @@ let officeSchema = new Schema({
         id: String,
         name: String,
     }],
+    user_id: [{
+        id: String,
+        name: String,
+    }],
     active: Boolean,
 }, {
     timestamps: true
@@ -32,6 +36,10 @@ class Office {
         id: String,
         name: String,
     }];
+    public user_id: [{
+        id: String,
+        name: String,
+    }];
     public active: Boolean;
     public createdAt: Date;
     public updatedAt: Date;
@@ -42,6 +50,8 @@ class Office {
         this.description = office['description'];
         this.sessions = office['session'];
         this.queue = office['queue'];
+        this.queue = office['queue'];
+        this.user_id = office['user_id'];
         this.active = office['active'];
         this.createdAt = office['createdAt'];
         this.updatedAt = office['updatedAt'];
