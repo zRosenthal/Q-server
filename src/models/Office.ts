@@ -15,6 +15,8 @@ let officeSchema = new Schema({
     queue: [{
         id: String,
         name: String,
+        picture_url: String,
+        email: String
     }],
     user_id: [{
         id: String,
@@ -35,6 +37,8 @@ class Office {
     public queue: [{
         id: String,
         name: String,
+        picture_url: String,
+        email: String
     }];
     public user_id: [{
         id: String,

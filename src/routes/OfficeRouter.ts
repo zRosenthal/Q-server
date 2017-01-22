@@ -72,12 +72,12 @@ export class OfficeRouter {
 
         officeRepo.findById(req.body.officeId).then(
             (data) => {
-                data.queue.push({_id: userId, name: user.name});
+                data.queue.push(user);
 
                 data.save();
 
 
-                data = {_id: userId, name: user.name, officeId: req.body.officeId};
+                data = {user: user, officeId: req.body.officeId};
 
 
                 let headers = new Headers();
