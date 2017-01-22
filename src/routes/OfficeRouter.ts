@@ -79,10 +79,10 @@ export class OfficeRouter {
 
                 console.log("queue: " + {_id: userId, name: user.name});
 
-                /*fetch('localhost:3000/', {
+                fetch('localhost:3000/', {
                     method: 'post',
                     body: {_id: userId, name: user.name, officeId: req.body.officeId}
-                });*/
+                });
 
                 res.json(userId);
             },
