@@ -149,6 +149,19 @@ export class OfficeRouter {
                 data.queue.splice(i, 1);
                 data.save();
 
+                data = {userId: req.body.userId, officeId: req.body.officeId};
+
+                let headers = new Headers();
+
+                headers.append('Content-type', 'application/json');
+
+                fetch('http://qapp_web_socket_1:3333/', {
+                    method: 'DELETE',
+                    body: JSON.stringify(data),
+                    headers: headers
+                });
+
+
                 res.json('deleted');
             },
             err => {
