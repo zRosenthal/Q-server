@@ -3,13 +3,11 @@
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
-import {ParsedAsText, ParsedAsJson} from 'body-parser';
-import {IOffice} from '../modelInterfaces/IOffice';
+import { ParsedAsJson} from 'body-parser';
 import OfficeRepository = require('../database/OfficeRepository');
 import {Office} from "../models/Office";
 import UserRepository = require("../database/UserRepository");
-import send = Q.send;
-import post = http.post;
+import * as fetch from 'isomorphic-fetch';
 
 export class OfficeRouter {
     router: Router;
@@ -78,11 +76,18 @@ export class OfficeRouter {
 
                 data.save();
 
-                console.log("queue: " + {_id: userId, name: user.name});
 
-                fetch('localhost:3000/', {
-                    method: 'post',
-                    body: {_id: userId, name: user.name, officeId: req.body.officeId}
+                data = {_id: userId, name: user.name, officeId: req.body.officeId};
+
+
+                let headers = new Headers();
+
+                headers.append('Content-type', 'application/json');
+
+                fetch('http://qapp_web_socket_1:3333/', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: headers
                 });
 
                 res.json(userId);
