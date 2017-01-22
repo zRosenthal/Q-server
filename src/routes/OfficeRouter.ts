@@ -8,6 +8,8 @@ import OfficeRepository = require('../database/OfficeRepository');
 import {Office} from "../models/Office";
 import UserRepository = require("../database/UserRepository");
 import * as fetch from 'isomorphic-fetch';
+import {$$} from "../../../Q-Admin/node_modules/protractor/built/index";
+import {User} from "../models/User";
 
 export class OfficeRouter {
     router: Router;
@@ -73,7 +75,7 @@ export class OfficeRouter {
         officeRepo.findById(req.body.officeId).then(
             (data) => {
 
-                if (!data.queue.contains(user)) {
+                if (user && (-1 == data.queue.indexOf(user))){
                     data.queue.push(user);
 
 
