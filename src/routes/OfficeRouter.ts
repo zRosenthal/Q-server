@@ -52,15 +52,21 @@ export class OfficeRouter {
 
     queue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let userId = req.body.userId;
+        let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
-        /*var populateQuery = [{path: 'queue', select: 'name email _id picture_url', model: 'User'}]
+        var user;
 
-        officeRepo.findById(req.body.officeId).populate(populateQuery);*/
+        userRepo.findById(userId).then(
+            (data) => {
+                user = data;
+            },
+            err => err
+        );
 
         officeRepo.findById(req.body.officeId).then(
             (data) => {
-                data.queue.push(userId);
+                data.queue.push({_id: userId, name: user.name});
                 console.log("userId: " + userId);
                 data.save();
 

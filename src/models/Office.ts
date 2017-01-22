@@ -12,7 +12,10 @@ let officeSchema = new Schema({
     name: String,
     description: String,
     sessions: [sessionSchema],
-    queue: Array,
+    queue: [{
+        id: String,
+        name: String,
+    }],
     active: Boolean,
 }, {
     timestamps: true
@@ -25,7 +28,10 @@ class Office {
     public name: String;
     public description: String;
     public sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}];
-    public queue: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}];
+    public queue: [{
+        id: String,
+        name: String,
+    }];
     public active: Boolean;
     public createdAt: Date;
     public updatedAt: Date;

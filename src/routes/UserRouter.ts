@@ -42,7 +42,7 @@ export class UserRouter {
         });
     };
 
-    new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    newUser(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let userRepo = new UserRepository();
 
         let user = new User(req.body);
@@ -74,8 +74,9 @@ export class UserRouter {
     init() {
         this.router.get('/', this.getAll);
         this.router.delete('/', this.deleteAll);
-        this.router.post('/', this.new);
+        this.router.post('/', this.newUser);
         this.router.patch('/', this.edit);
+        this.router.get('/')
     }
 
 }
