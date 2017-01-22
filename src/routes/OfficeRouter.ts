@@ -114,7 +114,7 @@ export class OfficeRouter {
     unqueue(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
-        officeRepo.findById(req.body.officeId).then(
+        officeRepo.findById(req.params.id).then(
             (data) => {
                 data.queue.shift();
                 data.miniQueue.shift();
@@ -213,7 +213,7 @@ export class OfficeRouter {
         this.router.delete('/:id', this.deleteOffice);
         this.router.post('/', this.newOffice);
         this.router.patch('/queue', this.queue);
-        this.router.delete('/queue/pop', this.unqueue);
+        this.router.delete('/queue/pop/:id', this.unqueue);
         this.router.patch('/', this.edit);
         this.router.delete('/queue/leave/', this.leaveQueue);
         this.router.patch('/active', this.setActive);
