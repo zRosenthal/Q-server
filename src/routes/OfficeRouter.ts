@@ -65,13 +65,6 @@ export class OfficeRouter {
 
         var user;
 
-       /* userRepo.findById(userId).then(
-            (data) => {
-                user = data;
-            },
-            err => err
-        ).then();*/
-
         userRepo.findById(userId).then(
             user => officeRepo.findById(req.body.officeId),
             err => err
