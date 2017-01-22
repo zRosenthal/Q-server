@@ -30,7 +30,7 @@ export class OfficeRouter {
     };
 
 
-    new(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    newOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
@@ -141,6 +141,23 @@ export class OfficeRouter {
         );
     }
 
+    setActive(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+        let officeRepo = new OfficeRepository();
+
+        officeRepo.findById(req.body.officeId).then(
+            (data) => {
+                if(data.active == true){
+                    data.active = false;
+                }
+                else{
+                    data.active = true;
+                }
+                res.json(data.save());
+            },
+            err => err
+        );
+    }
+
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -148,11 +165,12 @@ export class OfficeRouter {
     init() {
         this.router.get('/', this.getAll);
         this.router.delete('/:id', this.deleteOffice);
-        this.router.post('/', this.new);
+        this.router.post('/', this.newOffice);
         this.router.patch('/queue', this.queue);
         this.router.delete('/queue/pop', this.unqueue);
         this.router.patch('/', this.edit);
-        this.router.delete('/queue/leave/', this.leaveQueue)
+        this.router.delete('/queue/leave/', this.leaveQueue);
+        this.router.patch('/active', this.setActive);
     }
 
 }

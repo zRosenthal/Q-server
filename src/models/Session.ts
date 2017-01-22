@@ -10,7 +10,6 @@ let sessionSchema = new Schema({
     day: String,
     start_time: String,
     end_time: String,
-    active: Boolean,
 }, {
     timestamps: true
 });
@@ -21,7 +20,6 @@ class Session {
     public day: String;
     public start_time: String;
     public end_time: String;
-    public active: Boolean;
     public createdAt: Date;
     public updatedAt: Date;
 
@@ -29,7 +27,6 @@ class Session {
         this.day = session['day'];
         this.start_time = session['start_time'];
         this.end_time = session['end_time'];
-        this.active = session['active'];
         this.createdAt = session['createdAt'];
         this.updatedAt = session['updatedAt'];
     }

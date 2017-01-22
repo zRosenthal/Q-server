@@ -9,7 +9,6 @@ interface ISession extends mongoose.Document {
     day: String;
     start_time: String;
     end_time: String;
-    active: Boolean;
     createdAt: Date;
     updatedAt: Date;
 }

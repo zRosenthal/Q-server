@@ -66,23 +66,6 @@ export class SessionRouter {
         );
     }
 
-    setActive(req: Request & ParsedAsJson, res: Response, next: NextFunction){
-        let sessionRepo = new SessionRepository();
-
-        sessionRepo.findById(req.body.sessionId).then(
-            (data) => {
-                if(data.active == true){
-                    data.active = false;
-                }
-                else{
-                    data.active = true;
-                }
-                res.json(data.save());
-            },
-            err => err
-        );
-    }
-
     deleteSession(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let sessionRepo = new SessionRepository();
 
@@ -107,7 +90,7 @@ export class SessionRouter {
         this.router.delete('/', this.deleteSession);
         this.router.post('/', this.newSession);
         this.router.patch('/', this.edit);
-        this.router.patch('/active', this.setActive);
+
     }
 
 }

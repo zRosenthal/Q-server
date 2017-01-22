@@ -12,6 +12,7 @@ interface IOffice extends mongoose.Document {
     description: String;
     sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}];
     queue: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}];
+    active: Boolean;
     createdAt: Date;
     updatedAt: Date;
 }
