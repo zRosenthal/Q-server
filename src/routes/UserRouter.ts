@@ -36,11 +36,6 @@ export class UserRouter {
         });
     };
 
-    test(req: Request & ParsedAsJson, res: Response, next: NextFunction){
-        res.json({
-            message: 'testing'
-        });
-    };
 
     newUser(req: Request & ParsedAsJson, res: Response, next: NextFunction){
         let userRepo = new UserRepository();

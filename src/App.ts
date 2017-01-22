@@ -19,25 +19,10 @@ class App {
     // Run configuration methods on the Express instance.
     constructor() {
         this.express = express();
-        //this.socket();
         this.database();
         this.middleware();
         this.routes();
     }
-
- /*   private socket(){
-        const wss = new WebSocket.Server({ port: 8080 });
-
-        wss.on('connection', function connection(ws) {
-            ws.send('something');
-            ws.on('message', function incoming(message) {
-                console.log('received: %s', message);
-            });
-
-            ws.send('something');
-        });
-    };*/
-
 
     private database(): void {
         let uristring =

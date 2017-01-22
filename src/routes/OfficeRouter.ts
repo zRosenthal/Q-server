@@ -8,6 +8,8 @@ import {IOffice} from '../modelInterfaces/IOffice';
 import OfficeRepository = require('../database/OfficeRepository');
 import {Office} from "../models/Office";
 import UserRepository = require("../database/UserRepository");
+import send = Q.send;
+import post = http.post;
 
 export class OfficeRouter {
     router: Router;
@@ -72,8 +74,15 @@ export class OfficeRouter {
         officeRepo.findById(req.body.officeId).then(
             (data) => {
                 data.queue.push({_id: userId, name: user.name});
-                console.log("userId: " + userId);
+
                 data.save();
+
+                console.log("queue: " + {_id: userId, name: user.name});
+
+                /*fetch('localhost:3000/', {
+                    method: 'post',
+                    body: {_id: userId, name: user.name, officeId: req.body.officeId}
+                });*/
 
                 res.json(userId);
             },
@@ -130,20 +139,10 @@ export class OfficeRouter {
 
         officeRepo.findById(req.body.officeId).then(
             (data) => {
-                console.log('data:' + data);
                 let i = data.queue.indexOf(req.body.userId);
-                console.log('i:' + i);
-                console.log('userId:' + req.body.userId);
                 data.queue.splice(i, 1);
                 data.save();
 
-                /*for(let i = 0; i < data.queue.length; i++){
-                    console.log('Here2' + data.queue.length);
-                    if(data.queue[i] == req.params.id){
-                        console.log('Here3');
-                        data.queue.splice(i, 1);
-                    }
-                }*/
                 res.json('deleted');
             },
             err => {
