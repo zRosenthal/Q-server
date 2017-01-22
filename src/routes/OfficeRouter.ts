@@ -72,25 +72,29 @@ export class OfficeRouter {
 
         officeRepo.findById(req.body.officeId).then(
             (data) => {
-                data.queue.push(user);
 
-                data.save();
-
-
-                data = {user: user, officeId: req.body.officeId};
+                if (!data.queue.contains(user)) {
+                    data.queue.push(user);
 
 
-                let headers = new Headers();
+                    data.save();
 
-                headers.append('Content-type', 'application/json');
 
-                fetch('http://qapp_web_socket_1:3333/', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: headers
-                });
+                    data = {user: user, officeId: req.body.officeId};
 
-                res.json(userId);
+
+                    let headers = new Headers();
+
+                    headers.append('Content-type', 'application/json');
+
+                    fetch('http://qapp_web_socket_1:3333/', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: headers
+                    });
+
+                    res.json(userId);
+                }
             },
             err => err
         );
