@@ -10,6 +10,7 @@ interface IUser extends mongoose.Document {
     email: String;
     picture_url: String;
     offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}];
+    queues: Array;
     createdAt: Date;
     updatedAt: Date;
 }

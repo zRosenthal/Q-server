@@ -3,4 +3,4 @@ export class Config {
         // definitely change this
         return 'zeeechola';
     }
-}I
+}

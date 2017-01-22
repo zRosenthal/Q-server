@@ -12,7 +12,7 @@ let officeSchema = new Schema({
     name: String,
     description: String,
     sessions: [sessionSchema],
-    queue: Array,
+    queue: Array
 }, {
     timestamps: true
 });

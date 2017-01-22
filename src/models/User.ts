@@ -11,6 +11,7 @@ let userSchema = new Schema({
     email: String,
     picture_url: String,
     offices: [officeSchema],
+    queues: Array,
 }, {
     timestamps: true
 });
@@ -23,6 +24,7 @@ class User {
     public email: String;
     public picture_url: String;
     public offices: [{type: mongoose.Schema.Types.ObjectId, ref: 'Office'}];
+    public queues: Array;
     public createdAt: Date;
     public updatedAt: Date;
 
@@ -32,6 +34,7 @@ class User {
         this.email = user['email'];
         this.picture_url = user['picture_url'];
         this.offices = user['offices'];
+        this.queues = user['queues'];
         this.createdAt = user['createdAt'];
         this.updatedAt = user['updatedAt'];
     }

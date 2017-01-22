@@ -54,7 +54,8 @@ export class LoginRouter {
                             picture_url: response['picture'].data.url
                         });
 
-                        userRepository.create(user).then((entity) => {
+                        console.log("id: " + user.id);
+                        userRepository.findOrCreate({id: user.id}).then((entity) => {
 
                             console.log(`response: ${JSON.stringify(entity)}`);
                             let token = AuthService.createAuthToken(entity['_doc']);

@@ -21,6 +21,7 @@ export class UserRouter {
 
     getAll(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let userRepo = new UserRepository();
+
         userRepo.findAll({}, null).then((result) => {
             res.json(result);
         }, err => {
