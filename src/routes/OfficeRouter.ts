@@ -3,7 +3,7 @@
  */
 
 import {Router, Request, Response, NextFunction} from 'express';
-import { ParsedAsJson} from 'body-parser';
+import {ParsedAsJson} from 'body-parser';
 import OfficeRepository = require('../database/OfficeRepository');
 import {Office} from "../models/Office";
 import UserRepository = require("../database/UserRepository");
@@ -32,7 +32,7 @@ export class OfficeRouter {
     };
 
 
-    newOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    newOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
@@ -58,29 +58,40 @@ export class OfficeRouter {
         });
     };
 
-    queue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    queue(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let userId = req.body.userId;
         let userRepo = new UserRepository();
         let officeRepo = new OfficeRepository();
 
-        var user;
+        let userObj;
 
         userRepo.findById(userId).then(
-            user => officeRepo.findById(req.body.officeId),
+            (user) => {
+                userObj = user;
+                return officeRepo.findById(req.body.officeId)
+            },
             err => err
         ).then(
-            (office) => office.queue.forEach((item) => {
-                    if (user && (item._id != userId)){
-                        office.queue.push(user);
-                        return office.save()
-                    } else {
-                        res.status(200);
+            (office) => {
+                let add = true;
+                office.queue.forEach((item) => {
+                    if (String(item._id) == String(userObj._id)) {
+                        console.log('false');
+                        add = false;
                     }
-            }),
+                });
+
+                if (add) {
+                    console.log('push');
+                    office.queue.push(userObj);
+                    return office.save()
+                }
+            },
             err => err
         ).then(
-                (success) => {
-                    let data = {user: user, officeId: req.body.officeId};
+            (success) => {
+                if (success) {
+                    let data = {user: userObj, officeId: req.body.officeId};
 
                     let headers = new Headers();
 
@@ -93,12 +104,13 @@ export class OfficeRouter {
                     });
 
                     res.json(userId);
-                },
-                err => res.status(500).json(err)
-            );
+                }
+            },
+            err => res.status(500).json(err)
+        );
     };
 
-    unqueue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    unqueue(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
         officeRepo.findById(req.body.officeId).then(
@@ -110,7 +122,7 @@ export class OfficeRouter {
         );
     }
 
-    edit(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    edit(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
         officeRepo.findById(req.body.officeId).then(
@@ -125,7 +137,7 @@ export class OfficeRouter {
 
     }
 
-    deleteOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    deleteOffice(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
         officeRepo.findById(req.params.id).then(
@@ -142,7 +154,7 @@ export class OfficeRouter {
 
     }
 
-    leaveQueue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    leaveQueue(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
         officeRepo.findById(req.body.officeId).then(
@@ -172,15 +184,15 @@ export class OfficeRouter {
         );
     }
 
-    setActive(req: Request & ParsedAsJson, res: Response, next: NextFunction){
+    setActive(req: Request & ParsedAsJson, res: Response, next: NextFunction) {
         let officeRepo = new OfficeRepository();
 
         officeRepo.findById(req.body.officeId).then(
             (data) => {
-                if(data.active == true){
+                if (data.active == true) {
                     data.active = false;
                 }
-                else{
+                else {
                     data.active = true;
                 }
                 res.json(data.save());
