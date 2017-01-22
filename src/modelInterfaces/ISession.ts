@@ -8,7 +8,6 @@ import {ObjectID} from 'mongodb';
 interface ISession extends mongoose.Document {
     day: String;
     start_time: String;
-    end_time: String;
     createdAt: Date;
     updatedAt: Date;
 }

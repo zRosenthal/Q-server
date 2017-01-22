@@ -36,12 +36,14 @@ export class SessionRouter {
         let sessionRepo = new SessionRepository();
         let officeRepo = new OfficeRepository();
 
-        let session = new Session(req.body);
+        let session = new Session({
+            day: req.body.day,
+            start_time: req.body.start_time
+        });
 
         sessionRepo.create(session).then((result) => {
             officeRepo.findById(req.body.officeId).then(
                 (data) => {
-                    console.log("result: " + result);
                     data.sessions.push(result);
                     data.save();
                 },
