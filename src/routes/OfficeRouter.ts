@@ -28,7 +28,7 @@ export class OfficeRouter {
             res.json(result);
         }, err => {
             res.status(500).json(err);
-        });
+        })
     };
 
 
@@ -84,6 +84,7 @@ export class OfficeRouter {
                 if (add) {
                     console.log('push');
                     office.queue.push(userObj);
+                    office.miniQueue.push(userObj._id);
                     return office.save()
                 }
             },
@@ -116,6 +117,7 @@ export class OfficeRouter {
         officeRepo.findById(req.body.officeId).then(
             (data) => {
                 data.queue.shift();
+                data.miniQueue.shift();
                 res.json(data.save());
             },
             err => err
@@ -161,6 +163,7 @@ export class OfficeRouter {
             (data) => {
                 let i = data.queue.indexOf(req.body.userId);
                 data.queue.splice(i, 1);
+                data.miniQueue.splice(i, 1);
                 data.save();
 
                 data = {userId: req.body.userId, officeId: req.body.officeId};

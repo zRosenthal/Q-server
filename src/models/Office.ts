@@ -18,6 +18,7 @@ let officeSchema = new Schema({
         picture_url: String,
         email: String
     }],
+    miniQueue: [String],
     user_id: [{
         id: String,
         name: String,
@@ -40,6 +41,7 @@ class Office {
         picture_url: String,
         email: String
     }];
+    public miniQueue: [String];
     public user_id: [{
         id: String,
         name: String,
@@ -54,7 +56,7 @@ class Office {
         this.description = office['description'];
         this.sessions = office['session'];
         this.queue = office['queue'];
-        this.queue = office['queue'];
+        this.miniQueue = office['miniQueue'];
         this.user_id = office['user_id'];
         this.active = office['active'];
         this.createdAt = office['createdAt'];

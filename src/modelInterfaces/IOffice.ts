@@ -15,6 +15,7 @@ interface IOffice extends mongoose.Document {
         id: String,
         name: String,
     }],
+    miniQueue: [String],
     user_id: [{
         id: String,
         name: String,
