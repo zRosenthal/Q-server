@@ -40,7 +40,8 @@ export class OfficeRouter {
             name: req.body.name,
             location: req.body.location,
             description: req.body.description,
-            user_id: {_id: req.body.userId, name: req.body.userName}
+            user_id: {_id: req.body.userId, name: req.body.userName},
+            active: false
         });
 
         officeRepo.create(office).then((result) => {
