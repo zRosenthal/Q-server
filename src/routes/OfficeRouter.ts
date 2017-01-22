@@ -65,25 +65,29 @@ export class OfficeRouter {
 
         var user;
 
-        userRepo.findById(userId).then(
+       /* userRepo.findById(userId).then(
             (data) => {
                 user = data;
             },
             err => err
-        );
+        ).then();*/
 
-        officeRepo.findById(req.body.officeId).then(
-            (data) => {
-
-                if (user && (-1 == data.queue.indexOf(user))){
-                    data.queue.push(user);
-
-
-                    data.save();
-
-
-                    data = {user: user, officeId: req.body.officeId};
-
+        userRepo.findById(userId).then(
+            user => officeRepo.findById(req.body.officeId),
+            err => err
+        ).then(
+            (office) => office.queue.forEach((item) => {
+                    if (user && (item._id != userId)){
+                        office.queue.push(user);
+                        return office.save()
+                    } else {
+                        res.status(200);
+                    }
+            }),
+            err => err
+        ).then(
+                (success) => {
+                    let data = {user: user, officeId: req.body.officeId};
 
                     let headers = new Headers();
 
@@ -96,10 +100,9 @@ export class OfficeRouter {
                     });
 
                     res.json(userId);
-                }
-            },
-            err => err
-        );
+                },
+                err => res.status(500).json(err)
+            );
     };
 
     unqueue(req: Request & ParsedAsJson, res: Response, next: NextFunction){
