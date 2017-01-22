@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import {IUser} from '../modelInterfaces/IUser';
 import { ObjectID }  from 'mongodb';
 import {Office, officeSchema} from "./Office";
+
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({

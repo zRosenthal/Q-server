@@ -10,6 +10,8 @@ import {User} from '../models/User';
 import IUser = require('../modelInterfaces/IUser');
 import FacebookAuthProvider = require('../services/authProviders/facebookAuthProvider');
 
+
+
 export class LoginRouter {
     router: Router;
 
@@ -51,6 +53,7 @@ export class LoginRouter {
                 let fb = new FacebookAuthProvider();
                 fb.registerUser(token).then(response => {
                         console.log(JSON.stringify(response));
+
                         let user = new User({
                             name: response.first_name + ' ' + response.last_name,
                             provider: 'fb',
@@ -60,31 +63,18 @@ export class LoginRouter {
                             picture_url: response['picture'].data.url
                         });
 
-                        console.log("id: " + user.id);
-                        userRepository.findOrCreate({id: user.id}).then((entity) => {
+                        console.log("user: ", user);
 
-                            console.log(`response: ${JSON.stringify(entity)}`);
-                            let token = AuthService.createAuthToken(entity['_doc']);
-                            console.log('token: ' + token);
-                            res.json(token);
-                        }, err => {
-
-                            console.log(`err: ${JSON.stringify(err)}`);
-                        });
-
-                        /*userRepository.findOrCreate({id: response.id}).then((entity) => {
-
-                            console.log(`response: ${JSON.stringify(entity)}`);
-                            let token = AuthService.createAuthToken(entity['_doc']);
-                            res.json(token);
-                        }, err => {
-
-                            console.log(`err: ${JSON.stringify(err)}`);
-                        });*/
-                        // console.log(JSON.stringify(res, null, 2));
+                        return userRepository.findOneOrCreate(user.id, user)
                     },
-                    error => error);
-
+                    error => error
+                ).then(
+                    user => res.json(AuthService.createAuthToken(user['_doc'])),
+                    err => {
+                        console.log('err: ' + err);
+                        res.status(500).json(err);
+                    }
+                );
             }
             else if (actionType === 'google') {
 
@@ -106,6 +96,7 @@ export class LoginRouter {
     init() {
         this.router.post('/', this.getAll);
     }
+
 
 }
 

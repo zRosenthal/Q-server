@@ -1,6 +1,4 @@
-/**
- * Created by evan on 11/20/16.
- */
+
 
 import {Router, Request, Response, NextFunction} from 'express';
 import {ParsedAsText, ParsedAsJson} from 'body-parser';

@@ -1,6 +1,4 @@
-/**
- * Created by evan on 11/19/16.
- */
+
 import mongoose = require('mongoose');
 
 class Repository <T extends mongoose.Document, U> {
@@ -44,7 +42,9 @@ class Repository <T extends mongoose.Document, U> {
     findOne(params): Promise < any > {
         return new Promise<any>((resolve, reject) => {
             this.Model.findOne(params, function (err, entity) {
-                if (err)
+                console.log('err: ', err);
+                console.log('entity: ', entity);
+                if (err || !entity)
                     reject(err);
 
                 resolve(entity);

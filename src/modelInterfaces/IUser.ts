@@ -4,6 +4,7 @@ import { ObjectID } from 'mongodb';
  * Created by evan on 11/18/16.
  */
 
+
 interface IUser extends mongoose.Document {
     id: String;
     name: String;
